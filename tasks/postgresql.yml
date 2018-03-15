@@ -1,0 +1,41 @@
+---
+- name: ensure postgresql data dir
+  file:
+    dest: '{{ item }}'
+    state: directory
+  with_items:
+    - '{{ postgresql_data_dir }}'
+
+- name: ensure postgresql config dir
+  file:
+    dest: '{{ item }}'
+    state: directory
+  with_items:
+    - '{{ postgresql_config_dir }}'
+
+- name: create postgresql configs
+  template:
+    src: '{{ item }}.j2'
+    dest: '{{ postgresql_config_dir }}/{{ item }}'
+  notify:
+    - reload postgresql
+  with_items:
+    - postgresql.conf
+    - pg_hba.conf
+    - pg_ident.conf
+    - recovery.conf
+
+- name: run postgresql container
+  docker_container:
+    state: started
+    restart: no
+    recreate: no
+    name: '{{ postgresql_container_name }}'
+    image: '{{ postgresql_image }}:{{ postgresql_version }}'
+    restart_policy: always
+    published_ports: '{{ postgresql_published_ports }}'
+    links: '{{ postgresql_links }}'
+    ulimits: '{{ postgresql_ulimits }}'
+    sysctls: '{{ postgresql_sysctls }}'
+    volumes: '{{ postgresql_volumes }}'
+    command: '{{ postgresql_container_command }}'

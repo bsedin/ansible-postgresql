@@ -1,0 +1,120 @@
+postgresql_container_name: postgresql
+postgresql_image: postgres
+postgresql_version: 10-alpine
+postgresql_cluster_name: "main"
+
+postgresql_data_dir: '/var/lib/postgresql/{{postgresql_version}}/{{postgresql_cluster_name}}'
+postgresql_config_dir: '/opt/docker/services/postgresql/{{postgresql_version}}/{{postgresql_cluster_name}}'
+postgresql_hba_file: '{{postgresql_conf_directory}}/pg_hba.conf'
+postgresql_ident_file: '{{postgresql_conf_directory}}/pg_ident.conf'
+
+postgresql_container_command: postgres -c 'config_file={{ postgresql_container_config_dir }}/postgresql.conf'
+postgresql_published_ports: []
+postgresql_links: []
+postgresql_ulimits: []
+postgresql_sysctls: {}
+postgresql_container_config_dir: /etc/postgresql
+postgresql_volumes:
+  - '{{ postgresql_data_dir }}:/var/lib/postgresql/data'
+  - '{{ postgresql_config_dir }}/postgresql.conf:{{ postgresql_container_config_dir }}/postgresql.conf'
+  - '{{ postgresql_config_dir }}/pg_hba.conf:{{ postgresql_container_config_dir }}/pg_hba.conf'
+  - '{{ postgresql_config_dir }}/pg_ident.conf:{{ postgresql_container_config_dir }}/pg_ident.conf'
+  - '{{ postgresql_config_dir }}/recovery.conf:{{ postgresql_container_config_dir }}/recovery.conf'
+
+# Replication
+postgresql_replication_enabled: false
+postgresql_replication_slave: false
+postgresql_replication_standby_mode: on
+postgresql_replication_master_ip: ''
+postgresql_replication_master_port: 5432
+postgresql_replication_user_name: rep
+postgresql_replication_user_password: ''
+postgresql_replication_trigger_file: '/tmp/postgresql.trigger'
+postgresql_replication_pg_hba:
+  - { type: host,  database: replication, user: '{{ postgresql_replication_user_name }}', address: '0.0.0.0/0',    method: 'md5', comment: 'Replication:' }
+
+# Basic settings
+postgresql_encoding: UTF-8
+
+postgresql_admin_user: postgres
+
+postgresql_database_owner: '{{ postgresql_admin_user }}'
+
+# List of databases to be created (optional)
+postgresql_databases: []
+
+# List of database extensions to be created (optional)
+postgresql_database_extensions: []
+
+# List of users to be created (optional)
+postgresql_users: []
+
+# List of user privileges to be applied (optional)
+postgresql_user_privileges: []
+
+# pg_hba.conf
+postgresql_pg_hba:
+  - { type: local, database: all, user: '{{ postgresql_admin_user }}', address: '', method: 'trust', comment: '' }
+  - { type: local, database: all, user: all, address: '',             method: 'md5', comment: '"local" is for Unix domain socket connections only' }
+  - { type: host,  database: all, user: all, address: '127.0.0.1/32', method: 'md5', comment: 'IPv4 local connections:' }
+  - { type: host,  database: all, user: all, address: '::1/128',      method: 'md5', comment: 'IPv6 local connections:' }
+  - { type: host,  database: all, user: all, address: '0.0.0.0/0',    method: 'md5', comment: 'Any IPv4 connections:' }
+
+postgresql_timezone: UTC
+postgresql_log_timezone: UTC
+
+#------------------------------------------------------------------------------
+# CONNECTIONS AND AUTHENTICATION
+#------------------------------------------------------------------------------
+
+postgresql_max_connections: 100
+postgresql_superuser_reserved_connections: 3
+
+# TCP Keepalives, 0 selects the system default (in seconds)
+postgresql_tcp_keepalives_idle: 0
+postgresql_tcp_keepalives_interval: 0
+postgresql_tcp_keepalives_count: 0
+
+#------------------------------------------------------------------------------
+# RESOURCE USAGE (except WAL)
+#------------------------------------------------------------------------------
+
+# - Memory -
+
+postgresql_shared_buffers:       128MB # min 128kB
+postgresql_huge_pages:           try   # on, off, or try
+postgresql_temp_buffers:         8MB   # min 800kB
+
+# Caution: it is not advisable to set max_prepared_transactions nonzero unless
+# you actively intend to use prepared transactions.
+postgresql_max_prepared_transactions: 0 # zero disables the feature
+
+postgresql_work_mem:                   1MB      # min 64kB
+postgresql_maintenance_work_mem:       16MB     # min 1MB
+postgresql_replacement_sort_tuples:    150000   # (>= 9.6) limits use of replacement selection sort
+postgresql_autovacuum_work_mem:        -1       # min 1MB, or -1 to use maintenance_work_mem
+postgresql_max_stack_depth:            2MB      # min 100kB
+
+# - Asynchronous Behavior -
+
+postgresql_effective_io_concurrency:        1
+postgresql_max_worker_processes:            8
+postgresql_max_parallel_workers:            8
+postgresql_max_parallel_workers_per_gather: 2
+
+#------------------------------------------------------------------------------
+# WRITE AHEAD LOG
+#------------------------------------------------------------------------------
+
+# - Checkpoints -
+
+postgresql_max_wal_size:                 1GB
+postgresql_min_wal_size:                 80MB
+postgresql_checkpoint_flush_after:       256kB # measured in pages, 0 disables
+postgresql_checkpoint_warning:           30s   # 0 disables
+postgresql_checkpoint_timeout:           5min  # range 30s-1d
+postgresql_checkpoint_completion_target: 0.5   # checkpoint target duration, 0.0 - 1.0
+
+postgresql_env:
+  LC_ALL: "{{ postgresql_locale }}"
+  LC_LCTYPE: "{{ postgresql_locale }}"

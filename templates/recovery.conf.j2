@@ -1,0 +1,5 @@
+{% if postgresql_replication_enabled and postgresql_replication_slave %}
+standby_mode = '{{ postgresql_replication_standby_mode }}'
+primary_conninfo = 'host={{ postgresql_replication_master_ip }} port={{ postgresql_replication_master_port }} user={{ postgresql_replication_user_name }} password={{ postgresql_replication_user_password }}'
+trigger_file = '{{ postgresql_replication_trigger_file }}'
+{% endif %}
