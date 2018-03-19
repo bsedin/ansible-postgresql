@@ -29,7 +29,7 @@ postgresql_volumes:
 # Replication
 postgresql_replication_enabled: false
 postgresql_replication_slave: false
-postgresql_replication_standby_mode: on
+postgresql_replication_standby_mode: 'on'
 postgresql_replication_master_ip: ''
 postgresql_replication_master_port: 5432
 postgresql_replication_user_name: rep
