@@ -23,7 +23,14 @@
     - postgresql.conf
     - pg_hba.conf
     - pg_ident.conf
+
+- name: add recovery config to postgresql data dir
+  template:
+    src: '{{ item }}.j2'
+    dest: '{{ postgresql_data_dir }}/{{ item }}'
+  with_items:
     - recovery.conf
+  when: postgresql_replication_enabled
 
 - name: run postgresql container
   docker_container:

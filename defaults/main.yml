@@ -24,7 +24,6 @@ postgresql_volumes:
   - '{{ postgresql_config_dir }}/postgresql.conf:{{ postgresql_container_config_dir }}/postgresql.conf'
   - '{{ postgresql_config_dir }}/pg_hba.conf:{{ postgresql_container_config_dir }}/pg_hba.conf'
   - '{{ postgresql_config_dir }}/pg_ident.conf:{{ postgresql_container_config_dir }}/pg_ident.conf'
-  - '{{ postgresql_config_dir }}/recovery.conf:{{ postgresql_container_config_dir }}/recovery.conf'
 
 # Replication
 postgresql_replication_enabled: false
