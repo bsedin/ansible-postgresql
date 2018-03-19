@@ -38,4 +38,5 @@
     ulimits: '{{ postgresql_ulimits }}'
     sysctls: '{{ postgresql_sysctls }}'
     volumes: '{{ postgresql_volumes }}'
+    env: '{{ postgresql_env }}'
     command: '{{ postgresql_container_command }}'

@@ -13,6 +13,11 @@ postgresql_published_ports: []
 postgresql_links: []
 postgresql_ulimits: []
 postgresql_sysctls: {}
+postgresql_env:
+  LC_ALL: '{{ postgresql_locale }}'
+  LC_LCTYPE: '{{ postgresql_locale }}'
+  POSTGRES_PASSWORD: '{{ postgresql_admin_password }}'
+
 postgresql_container_config_dir: /etc/postgresql
 postgresql_volumes:
   - '{{ postgresql_data_dir }}:/var/lib/postgresql/data'
@@ -35,8 +40,10 @@ postgresql_replication_pg_hba:
 
 # Basic settings
 postgresql_encoding: UTF-8
+postgresql_locale: en_US.UTF-8
 
 postgresql_admin_user: postgres
+postgresql_admin_password: ''
 
 postgresql_database_owner: '{{ postgresql_admin_user }}'
 
@@ -114,7 +121,3 @@ postgresql_checkpoint_flush_after:       256kB # measured in pages, 0 disables
 postgresql_checkpoint_warning:           30s   # 0 disables
 postgresql_checkpoint_timeout:           5min  # range 30s-1d
 postgresql_checkpoint_completion_target: 0.5   # checkpoint target duration, 0.0 - 1.0
-
-postgresql_env:
-  LC_ALL: "{{ postgresql_locale }}"
-  LC_LCTYPE: "{{ postgresql_locale }}"

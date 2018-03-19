@@ -1,0 +1,12 @@
+- name: ensure postgresql users
+  postgresql_user:
+    name: '{{ item.name }}'
+    password: "{{ item.pass | default(omit) }}"
+    encrypted: "{{ item.encrypted | default(omit) }}"
+    port: '{{ postgresql_port }}'
+    state: present
+    login_user: '{{ postgresql_admin_user }}'
+    login_host: localhost
+    login_password: '{{ postgresql_admin_password }}'
+  with_items: "{{ postgresql_users }}"
+  when: postgresql_users|length > 0
