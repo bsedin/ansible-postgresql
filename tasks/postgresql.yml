@@ -30,7 +30,7 @@
     dest: '{{ postgresql_data_dir }}/{{ item }}'
   with_items:
     - recovery.conf
-  when: postgresql_replication_enabled
+  when: postgresql_replication_enabled and postgresql_replication_slave
 
 - name: run postgresql container
   docker_container:
