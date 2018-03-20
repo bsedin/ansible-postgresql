@@ -42,6 +42,7 @@
     restart_policy: always
     published_ports: '{{ postgresql_published_ports }}'
     links: '{{ postgresql_links }}'
+    networks: '{{ postgresql_networks }}'
     ulimits: '{{ postgresql_ulimits }}'
     sysctls: '{{ postgresql_sysctls }}'
     volumes: '{{ postgresql_volumes }}'

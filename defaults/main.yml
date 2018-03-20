@@ -11,6 +11,7 @@ postgresql_ident_file: '{{postgresql_conf_directory}}/pg_ident.conf'
 postgresql_container_command: postgres -c 'config_file={{ postgresql_container_config_dir }}/postgresql.conf'
 postgresql_published_ports: []
 postgresql_links: []
+postgresql_networks: []
 postgresql_ulimits: []
 postgresql_sysctls: {}
 postgresql_env:
