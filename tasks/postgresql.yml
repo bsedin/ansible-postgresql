@@ -38,13 +38,14 @@
     restart: no
     recreate: no
     name: '{{ postgresql_container_name }}'
-    image: '{{ postgresql_image }}:{{ postgresql_version }}'
+    image: '{{ postgresql_image }}'
     restart_policy: always
-    published_ports: '{{ postgresql_published_ports }}'
-    links: '{{ postgresql_links }}'
-    networks: '{{ postgresql_networks }}'
-    ulimits: '{{ postgresql_ulimits }}'
-    sysctls: '{{ postgresql_sysctls }}'
-    volumes: '{{ postgresql_volumes }}'
-    env: '{{ postgresql_env }}'
+    published_ports: '{{ postgresql_container_published_ports }}'
+    networks: '{{ postgresql_container_networks }}'
+    ulimits: '{{ postgresql_container_ulimits }}'
+    sysctls: '{{ postgresql_container_sysctls }}'
+    volumes: '{{ postgresql_container_volumes }}'
+    env: '{{ postgresql_container_env }}'
     command: '{{ postgresql_container_command }}'
+    log_driver: '{{ postgresql_container_log_driver }}'
+    log_opt: '{{ postgresql_container_log_opt }}'

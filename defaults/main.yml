@@ -1,5 +1,5 @@
 postgresql_container_name: postgresql
-postgresql_image: postgres
+postgresql_image: postgres:{{ postgresql_version }}
 postgresql_version: 10-alpine
 postgresql_cluster_name: "main"
 
@@ -9,22 +9,23 @@ postgresql_hba_file: '{{postgresql_conf_directory}}/pg_hba.conf'
 postgresql_ident_file: '{{postgresql_conf_directory}}/pg_ident.conf'
 
 postgresql_container_command: postgres -c 'config_file={{ postgresql_container_config_dir }}/postgresql.conf'
-postgresql_published_ports: []
-postgresql_links: []
-postgresql_networks: []
-postgresql_ulimits: []
-postgresql_sysctls: {}
-postgresql_env:
+postgresql_container_published_ports: []
+postgresql_container_networks: []
+postgresql_container_ulimits: []
+postgresql_container_sysctls: {}
+postgresql_container_env:
   LC_ALL: '{{ postgresql_locale }}'
   LC_LCTYPE: '{{ postgresql_locale }}'
   POSTGRES_PASSWORD: '{{ postgresql_admin_password }}'
-
-postgresql_container_config_dir: /etc/postgresql
-postgresql_volumes:
+postgresql_container_log_driver: ''
+postgresql_container_log_opt: ''
+postgresql_container_volumes:
   - '{{ postgresql_data_dir }}:/var/lib/postgresql/data'
   - '{{ postgresql_config_dir }}/postgresql.conf:{{ postgresql_container_config_dir }}/postgresql.conf'
   - '{{ postgresql_config_dir }}/pg_hba.conf:{{ postgresql_container_config_dir }}/pg_hba.conf'
   - '{{ postgresql_config_dir }}/pg_ident.conf:{{ postgresql_container_config_dir }}/pg_ident.conf'
+
+postgresql_container_config_dir: /etc/postgresql
 
 # Replication
 postgresql_replication_enabled: false
