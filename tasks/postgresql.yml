@@ -49,3 +49,4 @@
     command: '{{ postgresql_container_command }}'
     log_driver: '{{ postgresql_container_log_driver }}'
     log_opt: '{{ postgresql_container_log_opt }}'
+    shm_size: '{{ postgresql_container_shm_size }}'
