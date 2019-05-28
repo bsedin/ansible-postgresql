@@ -40,6 +40,11 @@ postgresql_replication_trigger_file: '/tmp/postgresql.trigger'
 postgresql_replication_pg_hba:
   - { type: host,  database: replication, user: '{{ postgresql_replication_user_name }}', address: '0.0.0.0/0',    method: 'md5', comment: 'Replication:' }
 
+# Standby Servers
+
+postgresql_max_standby_archive_delay: 30s
+postgresql_max_standby_streaming_delay: 30s
+
 # Basic settings
 postgresql_encoding: UTF-8
 postgresql_locale: en_US.UTF-8
@@ -71,6 +76,12 @@ postgresql_pg_hba:
 
 postgresql_timezone: UTC
 postgresql_log_timezone: UTC
+
+#------------------------------------------------------------------------------
+# CLIENT CONNECTION DEFAULTS
+#------------------------------------------------------------------------------
+
+postgresql_statement_timeout: 0
 
 #------------------------------------------------------------------------------
 # CONNECTIONS AND AUTHENTICATION

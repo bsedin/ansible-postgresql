@@ -50,3 +50,7 @@
     log_driver: '{{ postgresql_container_log_driver }}'
     log_opt: '{{ postgresql_container_log_opt }}'
     shm_size: '{{ postgresql_container_shm_size }}'
+
+- name: restart postgresql
+  shell: docker restart {{ postgresql_container_name }}
+  when: postgresql_restart | default(false) | bool
