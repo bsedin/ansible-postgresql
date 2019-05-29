@@ -134,4 +134,8 @@ postgresql_checkpoint_flush_after:       256kB # measured in pages, 0 disables
 postgresql_checkpoint_warning:           30s   # 0 disables
 postgresql_checkpoint_timeout:           5min  # range 30s-1d
 postgresql_checkpoint_completion_target: 0.5   # checkpoint target duration, 0.0 - 1.0
+postgresql_checkpoint_segments: 128
+postgresql_wal_buffers: -1
 postgresql_wal_keep_segments: 0
+postgresql_wal_compression: off
+postgresql_max_wal_senders: 10

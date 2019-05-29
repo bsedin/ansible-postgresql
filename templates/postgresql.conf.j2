@@ -191,10 +191,10 @@ max_parallel_workers = {{ postgresql_max_parallel_workers }}		# maximum number o
 					#   fsync_writethrough
 					#   open_sync
 #full_page_writes = on			# recover from partial page writes
-#wal_compression = off			# enable compression of full-page writes
+wal_compression = {{ postgresql_wal_compression }}			# enable compression of full-page writes
 #wal_log_hints = off			# also do full page writes of non-critical updates
 					# (change requires restart)
-#wal_buffers = -1			# min 32kB, -1 sets based on shared_buffers
+wal_buffers = {{ postgresql_wal_buffers }}		# min 32kB, -1 sets based on shared_buffers
 					# (change requires restart)
 #wal_writer_delay = 200ms		# 1-10000 milliseconds
 #wal_writer_flush_after = 1MB		# measured in pages, 0 disables
@@ -231,7 +231,7 @@ checkpoint_warning = {{postgresql_checkpoint_warning}}		# 0 disables
 
 # Set these on the master and on any standby that will send replication data.
 
-#max_wal_senders = 10		# max number of walsender processes
+max_wal_senders = {{ postgresql_max_wal_senders}}		# max number of walsender processes
 				# (change requires restart)
 wal_keep_segments = {{ postgresql_wal_keep_segments }}		# in logfile segments, 16MB each; 0 disables
 #wal_sender_timeout = 60s	# in milliseconds; 0 disables
