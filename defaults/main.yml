@@ -76,6 +76,10 @@ postgresql_pg_hba:
 
 postgresql_timezone: UTC
 postgresql_log_timezone: UTC
+postgresql_log_min_duration_statement: -1 # -1 is disabled, 0 logs all statements
+                                          # and their durations, > 0 logs only
+                                          # statements running at least this number
+                                          # of milliseconds
 
 #------------------------------------------------------------------------------
 # CLIENT CONNECTION DEFAULTS
