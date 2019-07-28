@@ -1,10 +1,11 @@
+postgresql_version: 11
 postgresql_container_name: postgresql
-postgresql_image: postgres:{{ postgresql_version }}
-postgresql_version: 10-alpine
-postgresql_cluster_name: "main"
+postgresql_image: postgres:{{ postgresql_image_version }}
+postgresql_image_version: '{{ postgresql_version }}-alpine'
+postgresql_cluster_name: main
 
-postgresql_data_dir: '/var/lib/postgresql/{{postgresql_version}}/{{postgresql_cluster_name}}'
-postgresql_config_dir: '/opt/docker/services/postgresql/{{postgresql_version}}/{{postgresql_cluster_name}}'
+postgresql_data_dir: /var/lib/postgresql/{{postgresql_image_version}}/{{postgresql_container_name}}
+postgresql_config_dir: /opt/docker/services/postgresql/{{postgresql_image_version}}/{{postgresql_container_name}}
 postgresql_hba_file: '{{postgresql_conf_directory}}/pg_hba.conf'
 postgresql_ident_file: '{{postgresql_conf_directory}}/pg_ident.conf'
 

@@ -13,14 +13,20 @@
   with_items:
     - '{{ postgresql_config_dir }}'
 
-- name: create postgresql configs
+- name: create postgresql.conf
+  template:
+    src: postgresql-{{ postgresql_version }}.conf.j2
+    dest: '{{ postgresql_config_dir }}/postgresql.conf'
+  notify:
+    - reload postgresql
+
+- name: create pg configs
   template:
     src: '{{ item }}.j2'
     dest: '{{ postgresql_config_dir }}/{{ item }}'
   notify:
     - reload postgresql
   with_items:
-    - postgresql.conf
     - pg_hba.conf
     - pg_ident.conf
 
