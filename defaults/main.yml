@@ -144,3 +144,5 @@ postgresql_wal_buffers: -1
 postgresql_wal_keep_segments: 0
 postgresql_wal_compression: off
 postgresql_max_wal_senders: 10
+
+postgresql_default_statistics_target: 100
