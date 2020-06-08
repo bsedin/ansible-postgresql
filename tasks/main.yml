@@ -1,5 +1,62 @@
-- include: deps.yml
-- include: postgresql.yml
-# - include: databases.yml
-# - include: users.yml
-# - include: user_privileges.yml
+---
+- name: ensure postgresql data dir
+  file:
+    dest: '{{ item }}'
+    state: directory
+  with_items:
+    - '{{ postgresql_data_dir }}'
+
+- name: ensure postgresql config dir
+  file:
+    dest: '{{ item }}'
+    state: directory
+  with_items:
+    - '{{ postgresql_config_dir }}'
+
+- name: create postgresql.conf
+  template:
+    src: postgresql-{{ postgresql_version }}.conf.j2
+    dest: '{{ postgresql_config_dir }}/postgresql.conf'
+  notify:
+    - reload postgresql
+
+- name: create pg configs
+  template:
+    src: '{{ item }}.j2'
+    dest: '{{ postgresql_config_dir }}/{{ item }}'
+  notify:
+    - reload postgresql
+  with_items:
+    - pg_hba.conf
+    - pg_ident.conf
+
+- name: add recovery config to postgresql data dir
+  template:
+    src: '{{ item }}.j2'
+    dest: '{{ postgresql_data_dir }}/{{ item }}'
+  with_items:
+    - recovery.conf
+  when: postgresql_replication_enabled and postgresql_replication_slave
+
+- name: run postgresql container
+  docker_container:
+    state: started
+    restart: no
+    recreate: no
+    name: '{{ postgresql_container_name }}'
+    image: '{{ postgresql_image }}'
+    restart_policy: always
+    published_ports: '{{ postgresql_container_published_ports }}'
+    networks: '{{ postgresql_container_networks }}'
+    ulimits: '{{ postgresql_container_ulimits }}'
+    sysctls: '{{ postgresql_container_sysctls }}'
+    volumes: '{{ postgresql_container_volumes }}'
+    env: '{{ postgresql_container_env }}'
+    command: '{{ postgresql_container_command }}'
+    log_driver: '{{ postgresql_container_log_driver }}'
+    log_opt: '{{ postgresql_container_log_opt }}'
+    shm_size: '{{ postgresql_container_shm_size }}'
+
+- name: restart postgresql
+  shell: docker restart {{ postgresql_container_name }}
+  when: postgresql_restart | default(false) | bool
