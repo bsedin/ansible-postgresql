@@ -23,9 +23,7 @@ postgresql_container_log_opt: {}
 postgresql_container_shm_size: 64M
 postgresql_container_volumes:
   - '{{ postgresql_data_dir }}:/var/lib/postgresql/data'
-  - '{{ postgresql_config_dir }}/postgresql.conf:{{ postgresql_container_config_dir }}/postgresql.conf'
-  - '{{ postgresql_config_dir }}/pg_hba.conf:{{ postgresql_container_config_dir }}/pg_hba.conf'
-  - '{{ postgresql_config_dir }}/pg_ident.conf:{{ postgresql_container_config_dir }}/pg_ident.conf'
+  - '{{ postgresql_config_dir }}:{{ postgresql_container_config_dir }}'
 
 postgresql_container_config_dir: /etc/postgresql
 

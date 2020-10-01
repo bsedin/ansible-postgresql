@@ -17,6 +17,7 @@
   template:
     src: postgresql-{{ postgresql_version }}.conf.j2
     dest: '{{ postgresql_config_dir }}/postgresql.conf'
+    mode: '666'
   notify:
     - reload postgresql
 
@@ -24,6 +25,7 @@
   template:
     src: '{{ item }}.j2'
     dest: '{{ postgresql_config_dir }}/{{ item }}'
+    mode: '666'
   notify:
     - reload postgresql
   with_items:
@@ -34,6 +36,7 @@
   template:
     src: '{{ item }}.j2'
     dest: '{{ postgresql_data_dir }}/{{ item }}'
+    mode: '666'
   with_items:
     - recovery.conf
   when: postgresql_replication_enabled and postgresql_replication_slave
