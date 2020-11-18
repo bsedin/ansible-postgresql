@@ -445,10 +445,10 @@ log_min_duration_statement = {{ postgresql_log_min_duration_statement }}
 #debug_print_rewritten = off
 #debug_print_plan = off
 #debug_pretty_print = on
-#log_checkpoints = off
-#log_connections = off
-#log_disconnections = off
-#log_duration = off
+log_checkpoints = {{ postgresql_log_checkpoints }}
+log_connections = {{ postgresql_log_connections }}
+log_disconnections = {{ postgresql_log_disconnections }}
+log_duration = {{ postgresql_log_duration }}
 #log_error_verbosity = default		# terse, default, or verbose messages
 #log_hostname = off
 #log_line_prefix = '%m [%p] '		# special values:
@@ -473,8 +473,8 @@ log_min_duration_statement = {{ postgresql_log_min_duration_statement }}
 					#   %% = '%'
 					# e.g. '<%u%%%d> '
 #log_lock_waits = off			# log lock waits >= deadlock_timeout
-#log_statement = 'none'			# none, ddl, mod, all
-#log_replication_commands = off
+log_statement = '{{ postgresql_log_statement }}'			# none, ddl, mod, all
+log_replication_commands = {{ postgresql_log_replication_commands }}
 #log_temp_files = -1			# log temporary files equal or larger
 					# than the specified size in kilobytes;
 					# -1 disables, 0 logs all temp files

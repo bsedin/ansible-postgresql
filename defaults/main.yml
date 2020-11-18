@@ -79,6 +79,13 @@ postgresql_log_min_duration_statement: -1 # -1 is disabled, 0 logs all statement
                                           # and their durations, > 0 logs only
                                           # statements running at least this number
                                           # of milliseconds
+                                          #
+postgresql_log_statement: none # none, ddl, mod, all
+postgresql_log_replication_commands: 'off'
+postgresql_log_checkpoints: 'off'
+postgresql_log_connections: 'off'
+postgresql_log_disconnections: 'off'
+postgresql_log_duration: 'off'
 
 #------------------------------------------------------------------------------
 # CLIENT CONNECTION DEFAULTS
