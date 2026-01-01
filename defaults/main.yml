@@ -1,4 +1,4 @@
-postgresql_version: 12
+postgresql_version: 16
 postgresql_container_name: postgresql
 postgresql_image: postgres:{{ postgresql_image_version }}
 postgresql_image_version: '{{ postgresql_version }}-alpine'
@@ -21,6 +21,10 @@ postgresql_container_env:
 postgresql_container_log_driver: ''
 postgresql_container_log_opt: {}
 postgresql_container_shm_size: 64M
+postgresql_container_memory:
+postgresql_container_memory_reservation:
+postgresql_container_memory_swap:
+postgresql_container_memory_swappiness:
 postgresql_container_volumes:
   - '{{ postgresql_data_dir }}:/var/lib/postgresql/data'
   - '{{ postgresql_config_dir }}:{{ postgresql_container_config_dir }}'
@@ -98,6 +102,7 @@ postgresql_statement_timeout: 0
 #------------------------------------------------------------------------------
 
 postgresql_max_connections: 100
+postgresql_reserved_connections: 0
 postgresql_superuser_reserved_connections: 3
 
 # TCP Keepalives, 0 selects the system default (in seconds)
@@ -146,7 +151,7 @@ postgresql_checkpoint_timeout:           5min  # range 30s-1d
 postgresql_checkpoint_completion_target: 0.5   # checkpoint target duration, 0.0 - 1.0
 postgresql_checkpoint_segments: 128
 postgresql_wal_buffers: -1
-postgresql_wal_keep_segments: 0
+postgresql_wal_keep_size: 0
 postgresql_wal_compression: off
 postgresql_max_wal_senders: 10
 
