@@ -1,7 +1,8 @@
-- name: install ansible dependencies to manage postgresql
-  apt:
-    update_cache: yes
-    cache_valid_time: "{{ apt_cache_valid_time | default (3600) }}"
+---
+- name: Install ansible dependencies to manage postgresql
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: "{{ apt_cache_valid_time | default(3600) }}"
     name:
       - python-psycopg2
       - python-pycurl

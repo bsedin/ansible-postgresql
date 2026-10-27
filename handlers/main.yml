@@ -1,5 +1,5 @@
-- name: reload postgresql
-  shell: docker kill --signal=HUP {{ postgresql_container_name }}
-
-- name: restart postgresql
-  shell: docker restart {{ postgresql_container_name }}
+---
+- name: Reload postgresql
+  ansible.builtin.command: docker kill --signal=HUP {{ postgresql_container_name }}
+- name: Restart postgresql
+  ansible.builtin.command: docker restart {{ postgresql_container_name }}

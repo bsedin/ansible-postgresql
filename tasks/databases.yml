@@ -1,15 +1,16 @@
-- name: ensure postgresql databases
-  postgresql_db:
-    name: "{{item.name}}"
+---
+- name: Ensure postgresql databases
+  community.postgresql.postgresql_db:
+    name: "{{ item.name }}"
     owner: "{{ item.owner | default(postgresql_database_owner) }}"
     encoding: "{{ item.encoding | default(postgresql_encoding) }}"
     lc_collate: "{{ item.lc_collate | default(postgresql_locale) }}"
     lc_ctype: "{{ item.lc_ctype | default(postgresql_ctype) }}"
-    port: "{{postgresql_port}}"
+    port: "{{ postgresql_port }}"
     template: "template0"
     state: present
-    login_user: "{{postgresql_admin_user}}"
-  become: yes
+    login_user: "{{ postgresql_admin_user }}"
+  become: true
   become_user: "{{postgresql_admin_user}}"
   with_items: "{{postgresql_databases}}"
   when: postgresql_databases|length > 0
